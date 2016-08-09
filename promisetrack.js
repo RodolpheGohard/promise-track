@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 	
-	var promiseTrackModule = angular.module( 'promisetrack', ['jquery'] );
+	var promiseTrackModule = angular.module( 'promisetrack', [] );
 
 	//Maybe do this through providers ?
 	promiseTrackModule.constant( 'promiseTrackDefaultOptions', {
@@ -28,7 +28,7 @@
 	 *     click me
 	 * </button>
 	 */
-	promiseTrackModule.directive( 'promiseTrack', function( promiseTrackDefaultOptions, $ ) {
+	promiseTrackModule.directive( 'promiseTrack', function( promiseTrackDefaultOptions ) {
 		
 		var lastError = null;
 
@@ -39,7 +39,7 @@
 				var promiseExpr = attr.promise || attr.promiseTrack;
 				var lastPromise;
 				var defaultOptions = promiseTrackDefaultOptions;
-				var options = $.extend( {}, defaultOptions, $scope.$eval(attr.loaderOptions) );
+				var options = angular.extend( {}, defaultOptions, $scope.$eval(attr.loaderOptions) );
 
 				var startLoader = function() {
 					$scope[options.SCOPE_LOADING] = true;
@@ -67,16 +67,7 @@
 					}
 				};
 
-				//Active and invasive way
-				/*
-				$el.on( options.BOUND_EVENTS, function() {
-				lastPromise = $scope.$eval( promiseExpr );
-
-				//TODO: if last promise didn't resolved yet, create a deferred
-				startLoader();
-				lastPromise.finally(endLoader);
-				});*/
-
+				//TODO: what happens when promiseExpr gives a new promise but previous one is not resolved ?
 				//Passive and observative way. Gooder
 				$scope.$watch( promiseExpr, function(afterPromise,before) {
 					if ( !afterPromise ) {return;}

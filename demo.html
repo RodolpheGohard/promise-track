@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="promisetrack.js"></script>
+    
+    <script>
+        var app = angular.module('promiseTrackDemoApp', ['promisetrack']);
+        
+        app.controller('DemoController', function($scope, $timeout) {
+            $scope.asyncAction = function() {
+                return $timeout(2000, angular.noop);
+            };
+        });
+    </script>
+
+</head>
+<body ng-app="promiseTrackDemoApp" ng-controller="DemoController">
+    
+    <button 
+        type="button" 
+        ng-click="promise = asyncAction()"
+        promise-track="promise">async action</button>
+    
+</body>
+</html>
