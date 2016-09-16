@@ -36,7 +36,7 @@
 			restrict: 'A',
 			priority: 0,
 			link: function( $scope, $el, attr ) {
-				var promiseExpr = attr.promise || attr.promiseTrack;
+				var promiseExpr = attr.promise || attr.promiseTrack || 'promise';
 				var lastPromise;
 				var defaultOptions = promiseTrackDefaultOptions;
 				var options = angular.extend( {}, defaultOptions, $scope.$eval(attr.loaderOptions) );
